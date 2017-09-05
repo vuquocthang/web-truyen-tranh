@@ -12,8 +12,24 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
+Route::get('/truyen', function () {
+    return view('story');
+});
+
+Route::get('/truyen/chuong/', function () {
+    return view('chapter');
+});
+
+Route::get('/testUpload', function (){
+    return view('test.upload2');
+});
+
+Route::get('/testCarbon', 'TestController@carbon');
+
+Route::post('/testUpload', 'TestController@upload');
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('/login', 'LoginController@showLoginForm');
@@ -26,50 +42,61 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
 
         Route::get('/', 'HomeController@index');
 
-        Route::get('/category/add', 'CategoryController@showAddForm');
+        Route::get('/doi-mat-khau', function (){
+            return view('admin.change-password');
+        });
 
-        Route::post('/category/add', 'CategoryController@add');
+        Route::post('/doi-mat-khau', 'HomeController@changePassword');
 
-        Route::get('/category', 'CategoryController@index');
+        #category
+        Route::get('/the-loai/them', 'CategoryController@showAddForm');
 
-        Route::get('/category/edit/{id}', 'CategoryController@showEditForm');
+        Route::post('/the-loai/them', 'CategoryController@add');
 
-        Route::post('/category/edit/{id}', 'CategoryController@edit');
+        Route::get('/the-loai/danh-sach', 'CategoryController@index');
 
-        Route::get('/category/delete/{id}', 'CategoryController@delete');
+        Route::get('/the-loai/sua/{id}', 'CategoryController@showEditForm');
+
+        Route::post('/the-loai/sua/{id}', 'CategoryController@edit');
+
+        Route::get('/the-loai/xoa/{id}', 'CategoryController@delete');
+
+        Route::get('/the-loai/trang-thai/{id}', 'CategoryController@status');
+
+        #story
+        Route::get('/truyen/danh-sach', 'StoryController@index');
+
+        Route::get('/truyen/them', 'StoryController@showAddForm');
+
+        Route::post('/truyen/them', 'StoryController@add');
+
+        Route::get('/truyen/sua/{id}', 'StoryController@showEditForm');
+
+        Route::post('/truyen/sua/{id}', 'StoryController@edit');
+
+        Route::get('/truyen/xoa/{id}', 'StoryController@delete');
+
+        Route::get('/truyen/trang-thai/{id}', 'StoryController@status');
 
 
-        #user
-        Route::get('/user', 'UserController@index');
+        #chapter
+        Route::get('/chuong/danh-sach', 'ChapterController@index');
 
-        Route::get('/user/delete/{id}', 'UserController@delete');
+        Route::get('/chuong/them', 'ChapterController@showAddForm');
 
-        #store
-        Route::get('/store', 'StoreController@index');
+        Route::post('/chuong/them', 'ChapterController@add');
 
-        Route::get('/store/add', 'StoreController@showAddForm');
+        Route::get('/chuong/sua/{id}', 'ChapterController@showEditForm');
 
-        Route::post('/store/add', 'StoreController@add');
+        Route::post('/chuong/sua/{id}', 'ChapterController@edit');
 
-        #coupon
-        Route::get('/coupon', 'CouponController@index');
+        Route::get('/chuong/xoa/{id}', 'ChapterController@delete');
 
-        Route::get('/coupon/add', 'CouponController@showAddForm');
+        Route::get('/chuong/trang-thai/{id}', 'ChapterController@status');
 
-        Route::post('/coupon/add', 'CouponController@add');
 
-        #header
-        Route::get('/header', 'HeaderController@index');
 
-        Route::get('/header/add', 'HeaderController@showAddForm');
 
-        Route::post('/header/add', 'HeaderController@add');
-
-        Route::get('/header/edit/{id}', 'HeaderController@showEditForm');
-
-        Route::post('/header/edit/{id}', 'HeaderController@edit');
-
-        Route::get('/header/delete/{id}', 'HeaderController@delete');
 
 
     });

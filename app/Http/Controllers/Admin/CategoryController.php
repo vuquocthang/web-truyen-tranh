@@ -26,21 +26,19 @@ class CategoryController extends Controller
     public function add(Request $request){
         $input = Request::all();
 
-        if (empty($input['parent_id'])){
-            $input['parent_id'] = null;
-        }
-
-        //print_r($input['parent_id']);
-
         Category::create($input);
 
-        return redirect('admin/category');
+        return redirect('admin/the-loai/danh-sach');
     }
 
     public function delete($id){
-        Category::destroy($id);
+        $category = Category::findOrFail($id);
 
-        return redirect('admin/category');
+        $category->status = -1;
+
+        $category->save();
+
+        return redirect('admin/the-loai/danh-sach');
     }
 
     public function showEditForm($id){
@@ -54,15 +52,25 @@ class CategoryController extends Controller
 
         $category = Category::findOrFail($id);
 
-        if (empty($input['parent_id'])){
-            $input['parent_id'] = null;
-        }
-
         $category->fill($input);
 
         $category->save();
 
-        return redirect('admin/category');
+        return redirect('admin/the-loai/danh-sach');
     }
+
+    public function status($id){
+
+        $category = Category::findOrFail($id);
+
+        $category->status ==  1 ? $category->status = 0 : $category->status = 1;
+
+        $category->save();
+
+        return redirect('admin/the-loai/danh-sach');
+
+    }
+
+
 
 }

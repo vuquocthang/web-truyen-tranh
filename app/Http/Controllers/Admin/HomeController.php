@@ -9,7 +9,9 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Admin;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -20,5 +22,19 @@ class HomeController extends Controller
 
     public function index(){
         return view('admin.base');
+    }
+
+    public function changePassword(Request $request){
+        //$input = Request::all();
+
+        $admin = Admin::findOrFail(1);
+
+        if (bcrypt($request->old_password) == $admin->password){
+            echo "equal";
+        }
+
+        echo bcrypt($request->old_password) . '</br>';
+        echo $admin->password;
+
     }
 }

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Admin</title>
+    <title>Admin - @yield('title')</title>
 
     <!-- Bootstrap -->
     <link href="{{ url('public/admin/gentelella') }}/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -27,6 +27,8 @@
 
     <!-- Custom Theme Style -->
     <link href="{{ url('public/admin/gentelella') }}/build/css/custom.min.css" rel="stylesheet">
+
+    @yield('css')
 </head>
 
 <body class="nav-md">
@@ -35,9 +37,20 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                </div>
+				  <a href="{{ url('admin') }}" class="site_title"><i class="fa fa-paw"></i> <span>Trang Quản Trị</span></a>
+				</div>
 
                 <div class="clearfix"></div>
+				
+				<div class="profile clearfix">
+				  <div class="profile_pic">
+					<img src="{{ url('public/admin/gentelella/production') }}/images/img.jpg" alt="..." class="img-circle profile_img">
+				  </div>
+				  <div class="profile_info">
+					<span>Xin Chào ,</span>
+					<h2>Admin</h2>
+				  </div>
+				</div>
 
 
 
@@ -46,40 +59,33 @@
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                     <div class="menu_section">
-                        <h3>General</h3>
+                        <h3>Danh Mục</h3>
                         <ul class="nav side-menu">
-                            <li><a><i class="fa fa-home"></i> Category <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-windows"></i> Thể Loại <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('admin/category') }}">List</a></li>
-                                    <li><a href="{{ url('admin/category/add') }}">Add</a></li>
+                                    <li><a href="{{ url('admin/the-loai/danh-sach') }}">Danh Sách</a></li>
+                                    <li><a href="{{ url('admin/the-loai/them') }}">Thêm</a></li>
                                 </ul>
                             </li>
 
-                            <li><a><i class="fa fa-home"></i> Header  <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-paper-plane"></i> Truyện  <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('admin/header') }}">List</a></li>
-                                    <li><a href="{{ url('admin/header/add') }}">Add</a></li>
+                                    <li><a href="{{ url('admin/truyen/danh-sach') }}">Danh Sách</a></li>
+                                    <li><a href="{{ url('admin/truyen/them') }}">Thêm</a></li>
                                 </ul>
                             </li>
 
-                            <li><a><i class="fa fa-home"></i> User <span class="fa fa-chevron-down"></span></a>
+							<li><a><i class="fa fa-bars"></i> Chương  <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('admin/user') }}">List</a></li>
-                                    <li><a href="{{ url('admin/user/add') }}">Add</a></li>
+                                    <li><a href="{{ url('admin/chuong/danh-sach') }}">Danh Sách</a></li>
+                                    <li><a href="{{ url('admin/chuong/them') }}">Thêm</a></li>
                                 </ul>
                             </li>
 
-                            <li><a><i class="fa fa-home"></i> Store <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-cog"></i> Admin  <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('admin/store') }}">List</a></li>
-                                    <li><a href="{{ url('admin/store/add') }}">Add</a></li>
-                                </ul>
-                            </li>
-
-                            <li><a><i class="fa fa-home"></i> Coupon <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="{{ url('admin/coupon') }}">List</a></li>
-                                    <li><a href="{{ url('admin/coupon/add') }}">Add</a></li>
+                                    <li><a href="{{ url('admin/doi-mat-khau') }}">Đổi Mật Khẩu</a></li>
+                                    <li><a href="{{ url('admin/chuong/them') }}">Thêm</a></li>
                                 </ul>
                             </li>
 
@@ -102,7 +108,7 @@
                     <a data-toggle="tooltip" data-placement="top" title="Lock">
                         <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                     </a>
-                    <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                    <a data-toggle="tooltip" data-placement="top" title="Đăng Xuất" href="{{ url('admin/logout') }}">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                     </a>
                 </div>
@@ -125,7 +131,7 @@
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="{{ url('admin/logout') }}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                <li><a href="{{ url('admin/logout') }}"><i class="fa fa-sign-out pull-right"></i> Đăng Xuất</a></li>
                             </ul>
                         </li>
 
@@ -472,7 +478,7 @@
                                     <li><i class="fa fa-bar-chart"></i><a href="#">Auto Renewal</a> </li>
                                     <li><i class="fa fa-line-chart"></i><a href="#">Achievements</a>
                                     </li>
-                                    <li><i class="fa fa-area-chart"></i><a href="#">Logout</a>
+                                    <li><i class="fa fa-area-chart"></i><a href="{{ url('admin/logout') }}">Logout</a>
                                     </li>
                                 </ul>
 
@@ -880,6 +886,8 @@
 <!-- bootstrap-daterangepicker -->
 <script src="{{ url('public/admin/gentelella') }}/vendors/moment/min/moment.min.js"></script>
 <script src="{{ url('public/admin/gentelella') }}/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+@yield('js')
 
 <!-- Custom Theme Scripts -->
 <script src="{{ url('public/admin/gentelella') }}/build/js/custom.min.js"></script>
