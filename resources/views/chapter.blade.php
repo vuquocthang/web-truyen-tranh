@@ -1,26 +1,30 @@
 @extends('base')
 
-@section('container')
-    <section class="container">
+@section('title')
+    {{ $story->ten . ' | ' . \App\Chapter::findBySlugOrFail($chapterSlug)->ten }}
+    @endsection
+
+@section('breadcrumb')
+
         <ul class="breadcrumb">
-            <li><a href="https://www.a3manga.com"><i class="glyphicon glyphicon-home"></i> Trang chủ</a></li>
-            <li><a href="https://www.a3manga.com/truyen-tranh/cam-ly-quy/">Cẩm Lý Quy</a></li>
-            <li class="active"><a href="https://www.a3manga.com/cam-ly-quy-chap-5/">Cẩm Lý Quy – Chap 5</a></li>
+            <li><a href="{{ url('') }}"><i class="glyphicon glyphicon-home"></i> Trang chủ</a></li>
+            <li><a href="{{ url('truyen/' . $story->slug . '.html') }}">{{ $story->ten }}</a></li>
+            <li class="active"><a href="{{ url('truyen/' . $story->slug . '/' . \App\Chapter::findBySlugOrFail($chapterSlug)->slug . '.html') }}">{{ $story->ten }} – {{ \App\Chapter::findBySlugOrFail($chapterSlug)->ten }}</a></li>
         </ul>
-        <h2 class="info-title single-title text-center"> Cẩm Lý Quy – Chap 5</h2>
+        <h2 class="info-title single-title text-center"> {{ $story->ten }} – {{ \App\Chapter::findBySlugOrFail($chapterSlug)->ten }}</h2>
         <div class="text-center select-chapter">
             <div class="btn-group single-select-group">
                 <button type="button" class="select-button btn-snazzy light-green dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Chọn chapter <span class="down-icon"><i class="glyphicon glyphicon-chevron-down"></i></span> </button>
                 <ul class="dropdown-menu chap-selecter" role="menu">
-                    <li><a href="https://www.a3manga.com/cam-ly-quy-chap-5/">Cẩm Lý Quy – Chap 5</a></li>
-                    <li><a href="https://www.a3manga.com/cam-ly-quy-chap-4/">Cẩm Lý Quy – Chap 4</a></li>
-                    <li><a href="https://www.a3manga.com/cam-ly-quy-chap-3/">Cẩm Lý Quy – Chap 3</a></li>
-                    <li><a href="https://www.a3manga.com/cam-ly-quy-chap-2/">Cẩm Lý Quy – Chap 2</a></li>
-                    <li><a href="https://www.a3manga.com/cam-ly-quy-chap-1/">Cẩm Lý Quy – Chap 1</a></li>
+                    @foreach(\App\Chapter::where('status', 1)->where('truyen_id', $story->id)->orderBy('ngay_them', 'ASC')->get() as $item )
+                    <li><a href="{{ url('truyen/' . $story->slug . '/' . $item->slug . '.html' ) }}">{{ $story->ten }} – {{ $item->ten }}</a></li>
+                        @endforeach
                 </ul>
             </div>
-            <div class="block-15px"></div> <a class="btn-snazzy light-blue" id="prev-link" href="https://www.a3manga.com/cam-ly-quy-chap-4/">← Chap trước</a> <a class="btn-snazzy light-blue" id="next-link" href="#">Chap sau →</a>
-            <button id="s-s-btn" type="button" class="btn-snazzy red"><i class="glyphicon glyphicon-cog"></i> <span class="hidden-xs">Đổi server ảnh</span></button>
+            <div class="block-15px">
+            </div>
+            <a class="btn-snazzy light-blue" id="prev-link" href="https://www.a3manga.com/cam-ly-quy-chap-4/">← Chap trước</a>
+            <a class="btn-snazzy light-blue" id="next-link" href="#">Chap sau →</a>
         </div>
         <div class="like-share-top text-center">
             <div class="fb-like fb_iframe_widget" data-href="https://www.a3manga.com/cam-ly-quy-chap-5/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=988671374579758&amp;container_width=980&amp;href=https%3A%2F%2Fwww.a3manga.com%2Fcam-ly-quy-chap-5%2F&amp;layout=button_count&amp;locale=vi_VN&amp;sdk=joey&amp;share=true&amp;show_faces=false"><span style="vertical-align: bottom; width: 122px; height: 20px;"><iframe name="fc31549d5fc00c" width="1000px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:like Facebook Social Plugin" src="https://www.facebook.com/v2.10/plugins/like.php?action=like&amp;app_id=988671374579758&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2F0sTQzbapM8j.js%3Fversion%3D42%23cb%3Df2e68129d2ee3f4%26domain%3Dwww.a3manga.com%26origin%3Dhttps%253A%252F%252Fwww.a3manga.com%252Ff1dc3673eb2b6a4%26relation%3Dparent.parent&amp;container_width=980&amp;href=https%3A%2F%2Fwww.a3manga.com%2Fcam-ly-quy-chap-5%2F&amp;layout=button_count&amp;locale=vi_VN&amp;sdk=joey&amp;share=true&amp;show_faces=false" style="border: none; visibility: visible; width: 122px; height: 20px;" class=""></iframe></span></div> &nbsp;
@@ -38,17 +42,28 @@
 
 
         </div>
-    </section>
+        @endsection
 
-    <section id="view-chapter" class="text-center view-chapter"> <img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-740RXrcajxU/Wa18ta3EI0I/AAAAAAACUb4/gRxDL3N-5acE5ApCrtPcrPHR3viVxymCgCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%25281%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;">
+@section('top-hot')
+
+    @endsection
 
 
+@section('left')
 
-        <img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-bimHRLYEmFA/Wa18xpf3OKI/AAAAAAACUdM/_CZrXUgUlQwLrYaMDf5-l7NePynqRVrWQCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%25285%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;">
-        <img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-ELebpRJEkLI/Wa18x2p9C7I/AAAAAAACUdQ/t3yF9jiNlsUc2CnqO-nEKrdiN8tx35sMQCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%25286%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;">
-        <img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-7Tz_BTwClVI/Wa18yPSRwSI/AAAAAAACUdU/L1l3LgBSQ8cDTXMgtQLqT8bSeWM4FqVEQCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%25287%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-S8L-UIbrTpk/Wa18ydEzuoI/AAAAAAACUdY/b5F73ArfUs4WjpC0wx2qFpwC2JWrsX_nwCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%25288%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-8Vf0TUgkn4g/Wa18zn7SRQI/AAAAAAACUdc/iXrQVjEaq3IdvYDq_DWRpKGDaJ0UWP2XwCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%25289%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-4UXzvO26dtI/Wa18tUVnmcI/AAAAAAACUcA/rfYZwdVVDUIQPsi5Rmfl85PHqFPq8ofYwCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252810%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-_BKlpv1LjWM/Wa18tTt_YnI/AAAAAAACUb8/k_tbwFO_by0wWITVkMvtW9LjWuJNkauIACLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252811%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-BdaKGX1fLa4/Wa18uEda_bI/AAAAAAACUcE/2kqpACTDPqweUO7hpv03yKzBb_X-k6r8wCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252812%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-hl7Luc0TYUU/Wa18uGKjNqI/AAAAAAACUcI/ejwCatUxP_MxMtc2CETDbQuONO3tMN6cwCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252813%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-MbxzT2oIbvY/Wa18uO40nDI/AAAAAAACUcM/qAIgL4C-8gsfujgZmbvfXTzT81MBdyIGQCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252814%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-Em8u7HqEYAM/Wa18ujkMN9I/AAAAAAACUcQ/q-Qmbw_m8Pcz2OHcjPIGm332zy2-8A_6ACLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252815%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-nJpcYFlIqwk/Wa18uqzC8ZI/AAAAAAACUcU/HyyLyCJj2ispkMrNOgmQ6cJ_0ce4TJlXgCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252816%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-vQin0PLrmTY/Wa18ulsOqtI/AAAAAAACUcY/fchOkfD2vh0eLfww4CgLi2gPcDRXCgc-QCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252817%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-lDU6FTUdubM/Wa18vGK3aKI/AAAAAAACUcc/qnBCnJpmPDIvJd8j60Ml-b4LA-43iJOewCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252818%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-Z6hxrIrSlMs/Wa18vXVjnQI/AAAAAAACUck/-73NmwK7QkMSZhVNb8F5NkcD6QQpgRxggCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252819%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-UHJWPcqu2K8/Wa18v2HKJZI/AAAAAAACUco/PExKLQseXmcuN2gdUS2NsCppcnoWbFTjQCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252820%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-jF6iFlu6IoA/Wa18vz_e4QI/AAAAAAACUcs/2dY6wnYra58k29h4wOLoe4eD3Ugnxk9YwCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252821%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-acxcyhJBJI8/Wa18vz9l_RI/AAAAAAACUcw/HOjllqYE5aUxFtaZ_5cHRLoL9y7Vd97TACLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252822%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-TEFRWlwFiFw/Wa18whgc_dI/AAAAAAACUc0/mfo5J-sy6t42fCAJ3wQO8I0yU7chYFVCQCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252823%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-9smsbG6yK8c/Wa18wuj___I/AAAAAAACUc4/GlkEj_D6HQEx8iyY0g0DtwPqqNuul3F2wCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252824%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-tzPKjOvR_lE/Wa18wvip-WI/AAAAAAACUc8/fcpfl-GZBDsIWyKGYk4UJEGG949uRJ9ygCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252825%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;"><img src="https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&amp;gadget=a&amp;no_expand=1&amp;resize_h=0&amp;rewriteMime=image/*&amp;url=https://lh3.googleusercontent.com/-XCgNUGH9_E4/Wa18xE2i92I/AAAAAAACUdA/qajbkh_pb8YHuoQHZ0nckKw9kYzrqsRcwCLcBGAs/s0/CamLyQuy_Chap5_A3manga%2B%252826%2529.jpg" alt="Cẩm Lý Quy Chap 5" style="width: 900px;">
-    </section>
+    @endsection
 
+@section('right')
+
+    @endsection
+
+@section('middle')
+   <section id="view-chapter" class="text-center view-chapter">
+       <?php  echo (html_entity_decode( \App\Chapter::findBySlugOrFail($chapterSlug)->noi_dung)); ?>
+   </section>
+@endsection
+
+@section('bottom')
     <section class="container">
         <div class="like-share-bottom text-center">
             <div class="fb-like fb_iframe_widget" data-href="https://www.a3manga.com/cam-ly-quy-chap-5/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=988671374579758&amp;container_width=980&amp;href=https%3A%2F%2Fwww.a3manga.com%2Fcam-ly-quy-chap-5%2F&amp;layout=button_count&amp;locale=vi_VN&amp;sdk=joey&amp;share=true&amp;show_faces=false"><span style="vertical-align: bottom; width: 122px; height: 20px;"><iframe name="f3cd3fe43c35fd" width="1000px" height="1000px" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:like Facebook Social Plugin" src="https://www.facebook.com/v2.10/plugins/like.php?action=like&amp;app_id=988671374579758&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2F0sTQzbapM8j.js%3Fversion%3D42%23cb%3Df68bd91fc6c334%26domain%3Dwww.a3manga.com%26origin%3Dhttps%253A%252F%252Fwww.a3manga.com%252Ff1dc3673eb2b6a4%26relation%3Dparent.parent&amp;container_width=980&amp;href=https%3A%2F%2Fwww.a3manga.com%2Fcam-ly-quy-chap-5%2F&amp;layout=button_count&amp;locale=vi_VN&amp;sdk=joey&amp;share=true&amp;show_faces=false" style="border: none; visibility: visible; width: 122px; height: 20px;" class=""></iframe></span></div> &nbsp;
@@ -66,31 +81,31 @@
             <div class="btn-group single-select-group">
                 <button type="button" class="select-button btn-snazzy light-green dropdown-toggle" data-toggle="dropdown"> Chọn chapter <span class="down-icon"><i class="glyphicon glyphicon-chevron-down"></i></span> </button>
                 <ul class="dropdown-menu chap-selecter" role="menu">
-                    <li><a href="https://www.a3manga.com/cam-ly-quy-chap-5/">Cẩm Lý Quy – Chap 5</a></li>
-                    <li><a href="https://www.a3manga.com/cam-ly-quy-chap-4/">Cẩm Lý Quy – Chap 4</a></li>
-                    <li><a href="https://www.a3manga.com/cam-ly-quy-chap-3/">Cẩm Lý Quy – Chap 3</a></li>
-                    <li><a href="https://www.a3manga.com/cam-ly-quy-chap-2/">Cẩm Lý Quy – Chap 2</a></li>
-                    <li><a href="https://www.a3manga.com/cam-ly-quy-chap-1/">Cẩm Lý Quy – Chap 1</a></li>
+                    @foreach(\App\Chapter::where('status', 1)->where('truyen_id', $story->id)->orderBy('ngay_them', 'ASC')->get() as $item )
+                        <li><a href="{{ url('truyen/' . $story->slug . '/' . $item->slug . '.html' ) }}">{{ $story->ten }} – {{ $item->ten }}</a></li>
+                    @endforeach
                 </ul>
             </div>
             <div class="block-15px"></div>
-            <form action="https://docs.google.com/forms/d/1sVDrOZOcNgVBXVboJsT08CneXVDPw9jt0boUWRU6Qxc/formResponse" method="POST" target="_blank" id="ss-form">
+
+            <!-- <form action="https://docs.google.com/forms/d/1sVDrOZOcNgVBXVboJsT08CneXVDPw9jt0boUWRU6Qxc/formResponse" method="POST" target="_blank" id="ss-form">
                 <input type="hidden" name="entry.2025259344" value="Cẩm Lý Quy – Chap 5" id="entry_2025259344">
                 <input type="hidden" name="entry.1037048843" value="https://www.a3manga.com/cam-ly-quy-chap-5/" id="entry_1037048843">
                 <button type="submit" class="btn-snazzy red"><i class="glyphicon glyphicon-exclamation-sign"></i> Báo truyện hỏng</button>
-            </form>
+            </form> -->
         </div>
         <div class="widget text-center force-center more-a">
 
 
         </div>
-        <div class="widget">
+
+        <!--<div class="widget">
             <div class="bs-callout bs-callout-danger info">
                 <h4>Thích truyện của A3 Manga?</h4>
                 <p> Theo dõi <a href="https://www.facebook.com/a3manga" target="_blank" rel="nofollow">A3 Manga trên Facebook</a> để cập nhật thông tin <a href="https://www.a3manga.com/" target="_blank">truyện tranh</a> sớm nhất! Vui lòng xem <a href="https://www.a3manga.com/mot-so-thong-tin-co-ban" target="_blank" rel="nofollow">một số thông tin cơ bản</a> trước khi đặt câu hỏi cho nhóm.
                     <br> Hướng dẫn <a href="https://www.a3manga.com/sua-loi-khong-xem-duoc-truyen/" target="_blank">sửa lỗi không xem được truyện</a>.</p>
             </div>
-        </div>
+        </div> -->
         <div>
             <h3 class="org-title">Bình luận</h3>
             <div class="row">
@@ -120,9 +135,13 @@
                             (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
                         })();
                     </script>
-                    <div class="keywords"> Từ khóa: <a href="https://www.a3manga.com/cam-ly-quy-chap-5/">đọc truyện cẩm lý quy chap 5</a>, <a href="https://www.a3manga.com/cam-ly-quy-chap-5/">truyện tranh cẩm lý quy chap 5</a>, <a href="https://www.a3manga.com/cam-ly-quy-chap-5/">cẩm lý quy chap 5 tiếng việt</a></div>
+                    <div class="keywords"> Từ khóa: <a href="{{ url('truyen/' . $story->slug . '/' . \App\Chapter::findBySlugOrFail($chapterSlug)->slug . '.html') }}">đọc truyện {{ strtolower($story->ten) . ' ' . strtolower(\App\Chapter::findBySlugOrFail($chapterSlug)->ten) }}</a>,
+                        <a href="{{ url('truyen/' . $story->slug . '/' . \App\Chapter::findBySlugOrFail($chapterSlug)->slug . '.html') }}">đọc truyện {{ strtolower($story->ten) . ' ' . strtolower(\App\Chapter::findBySlugOrFail($chapterSlug)->ten) }}</a>,
+                        <a href="{{ url('truyen/' . $story->slug . '/' . \App\Chapter::findBySlugOrFail($chapterSlug)->slug . '.html') }}">đọc truyện {{ strtolower($story->ten) . ' ' . strtolower(\App\Chapter::findBySlugOrFail($chapterSlug)->ten) }}</a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-@endsection
+
+    @endsection

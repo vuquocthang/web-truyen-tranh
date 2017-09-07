@@ -82,12 +82,20 @@
                                 </ul>
                             </li>
 
-                            <li><a><i class="fa fa-cog"></i> Admin  <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-bell"></i> Quảng Cáo  <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('admin/doi-mat-khau') }}">Đổi Mật Khẩu</a></li>
-                                    <li><a href="{{ url('admin/chuong/them') }}">Thêm</a></li>
+                                    <li><a href="{{ url('admin/quang-cao/sua') }}">Sửa</a></li>
                                 </ul>
                             </li>
+
+                            <li><a><i class="fa fa-sliders"></i> Slide  <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ url('admin/slide/them') }}">Thêm</a></li>
+                                    <li><a href="{{ url('admin/slide/danh-sach') }}">Danh Sách</a></li>
+                                </ul>
+                            </li>
+
+
 
 
                         </ul>

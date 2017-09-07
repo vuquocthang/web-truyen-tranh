@@ -15,14 +15,34 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/truyen', function () {
-    return view('story');
+#the loai
+Route::get('/the-loai/{category}.html', function (\App\Category $category) {
+    return view('category', ['category' => $category]);
 });
 
-Route::get('/truyen/chuong/', function () {
-    return view('chapter');
+#truyen
+Route::get('/truyen/{story}.html', function (\App\Story $story) {
+
+    return view('story', ['story' => $story]);
 });
 
+#chuong
+Route::get('/truyen/{story}/{chapterSlug}.html', function (\App\Story $story, $chapterSlug) {
+
+    return view('chapter', ['story' => $story, 'chapterSlug' => $chapterSlug]);
+});
+
+#danh sach truyen
+Route::get('/danh-sach-truyen.html', function () {
+    return view('list');
+});
+
+#danh sach the loai
+Route::get('/danh-sach-the-loai.html', function () {
+    return view('category-list');
+});
+
+#test
 Route::get('/testUpload', function (){
     return view('test.upload2');
 });
@@ -30,6 +50,8 @@ Route::get('/testUpload', function (){
 Route::get('/testCarbon', 'TestController@carbon');
 
 Route::post('/testUpload', 'TestController@upload');
+#end test
+
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::get('/login', 'LoginController@showLoginForm');
@@ -95,6 +117,20 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::get('/chuong/trang-thai/{id}', 'ChapterController@status');
 
 
+        #ads
+
+        Route::get('/quang-cao/sua', 'AdsController@editForm');
+
+        Route::post('/quang-cao/sua', 'AdsController@edit');
+
+        #slide
+        Route::get('/slide/danh-sach', 'SlideController@index');
+
+        Route::get('/slide/them', 'SlideController@showAddForm');
+
+        Route::post('/slide/them', 'SlideController@add');
+
+        Route::get('/slide/xoa/{id}', 'SlideController@delete');
 
 
 

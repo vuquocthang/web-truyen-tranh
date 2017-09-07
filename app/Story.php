@@ -9,10 +9,13 @@
 namespace App;
 
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
 class Story extends Model
 {
+    use Sluggable;
+
     protected $table = 'truyen';
 
     protected $fillable = [
@@ -27,5 +30,19 @@ class Story extends Model
         'status',
         'image_link'
     ];
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'ten'
+            ]
+        ];
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
 }

@@ -8,9 +8,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Chapter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
 {
@@ -30,9 +32,33 @@ class TestController extends Controller
     }
 
     public function carbon(){
-        $dt = Carbon::now();
-        echo $dt->diffInHours($dt->copy()->addHours(2));                         // 31
-        echo $dt->diffInDays($dt->copy()->subMonth(), false);
+        //echo Carbon::createFromFormat("Y-m-d H-i-s", Chapter::findOrFail(1)->ngay_them);
+
+        //setlocale(TC_TIME, 'Vietnam');
+
+        $dt = new Carbon(Chapter::findOrFail(1)->ngay_them);
+
+
+
+       //echo $dt;
+        $now = date("Y-m-d H-i-s");
+
+       // echo $now;
+        //echo Carbon::now();
+
+        //echo Carbon::now()->diffInHours($dt);
+
+        foreach(\App\Story::where('status', 1)->orderBy('view', 'DESC')->limit(10)->get() as $item){
+            print_r(  DB::table('chuong')->where('status', '=', 1)
+                ->where('truyen_id', '=',$item->id)
+                ->orderBy('ngay_them', 'ASC')
+                ->first());
+
+            echo "</br>";
+        }
+
+
+
     }
 
 }

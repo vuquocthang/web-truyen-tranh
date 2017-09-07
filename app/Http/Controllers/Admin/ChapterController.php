@@ -30,7 +30,7 @@ class ChapterController extends Controller
 
         $input['ngay_them'] = date("Y-m-d H:i:s");
 
-        $input['noi_dung'] = htmlspecialchars($input['noi_dung']);
+        $input['noi_dung'] = htmlentities($input['noi_dung']);
 
         Chapter::create($input);
 
@@ -59,7 +59,7 @@ class ChapterController extends Controller
 
         $chapter = Chapter::findOrFail($id);
 
-        $input['noi_dung'] = htmlspecialchars($input['noi_dung']);
+        $input['noi_dung'] = htmlentities($input['noi_dung']);
 
         $chapter->fill($input);
 

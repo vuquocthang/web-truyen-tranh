@@ -55,8 +55,17 @@
         </div>
         <div class="navbar-right navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li id="menu-item-158524" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-158524"><a href="danh-sach-truyen/index.htm">Danh sách truyện</a></li>
-                <li id="menu-item-1073411" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1073411"><a href="truyen-xem-nhieu/index.htm">Truyện xem nhiều</a></li>
+                <li id="menu-item-158524" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-158524">
+                    <a href="{{ url('danh-sach-truyen.html') }}">Danh sách truyện</a>
+                </li>
+
+                <li id="menu-item-158525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-158525">
+                    <a href="{{ url('danh-sach-the-loai.html') }}">Thể loại</a>
+                </li>
+
+                <!-- <li id="menu-item-1073411" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1073411">
+                    <a href="truyen-xem-nhieu/index.htm">Truyện xem nhiều</a>
+                </li>-->
             </ul>
             <form class="navbar-form navbar-right" action="index.htm" method="get" role="search" onSubmit="return false;">
                 <div class="form-group search-wrapper">
@@ -68,249 +77,153 @@
     </div>
 </header>
 
-@section('container')
+
 <section class="container">
+
+    @section('breadcrumb')
+
+    @show
 
     @section('top-hot')
     <div class="top-hot">
         <div id="owl-top-hot" class="owl-carousel">
+            @foreach(\App\Chapter::where('status', 1)->orderBy('ngay_them', 'DESC')->limit(10)->get() as $item)
             <div class="item">
-                <a href="truyen-tranh/xuyen-duyet-tay-nguyen-3000/index.htm" title="Xuyên Duyệt Tây Nguyên 3000">
-                    <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2017/08/XuyenDuyetTayNguyen3000A3mangazzx-400x500.jpg" alt="Xuyên Duyệt Tây Nguyên 3000">
-                    <h3>Xuyên Duyệt Tây Nguyên 3000</h3> </a>
-                <a href="xuyen-duyet-tay-nguyen-3000-chap-193/index.htm">
-                    <p class="chap"> Chap 193-SPOILER</p>
-                    <p class="chap-date"><i class="glyphicon glyphicon-time"></i> 18 giờ trước</p>
+                <a href="{{ url('truyen/' . \App\Story::findOrFail($item->truyen_id)->slug . '.html') }}" title="{{ \App\Story::findOrFail($item->truyen_id)->ten }}">
+                    <img class="img-thumbnail" src="{{ url('public/image/' . \App\Story::findOrFail($item->truyen_id)->image_link) }}" alt="{{ \App\Story::findOrFail($item->truyen_id)->ten }}">
+                    <h3>{{ \App\Story::findOrFail($item->truyen_id)->ten }}</h3>
                 </a>
-            </div>
 
-            <div class="item">
-                <a href="truyen-tranh/xuyen-duyet-tay-nguyen-3000/index.htm" title="Xuyên Duyệt Tây Nguyên 3000"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2017/08/XuyenDuyetTayNguyen3000A3mangazzx-400x500.jpg" alt="Xuyên Duyệt Tây Nguyên 3000">
-                    <h3>Xuyên Duyệt Tây Nguyên 3000</h3> </a>
-                <a href="xuyen-duyet-tay-nguyen-3000-chap-193/index.htm">
-                    <p class="chap"> Chap 193-SPOILER</p>
-                    <p class="chap-date"><i class="glyphicon glyphicon-time"></i> 18 giờ trước</p>
+                <a href="{{ url('truyen/' . \App\Story::findOrFail($item->truyen_id)->slug . '/' . $item->slug . '.html' ) }}">
+                    <p class="chap"> {{ $item->ten }}</p>
+
+                    <?php
+
+                        $dt = new \Carbon\Carbon($item->ngay_them);
+                        $now = \Carbon\Carbon::now();
+
+                        $diffForHuman = '';
+
+
+                        $diffInMinutes = $now->diffInMinutes($dt);
+                        $diffInHours = $now->diffInHours($dt);
+                        $diffInDays = $now->diffInDays($dt);
+
+                        if ($diffInMinutes >= 0 && $diffInMinutes< 60){
+                            $diffForHuman = $diffInMinutes .' phút trước';
+                        }elseif ($diffInHours >= 0 && $diffInHours < 24){
+                             $diffForHuman = $diffInHours .' giờ trước';
+                        }elseif ($diffInDays >=0 && $diffInDays<= 7){
+                            $diffForHuman = $diffInDays .' ngày trước';
+                        }else{
+                            $diffForHuman = $dt->format('d-m-Y');
+                        }
+
+                    ?>
+                    <p class="chap-date"><i class="glyphicon glyphicon-time"></i> <?php echo $diffForHuman ?></p>
                 </a>
             </div>
-            <div class="item">
-                <a href="truyen-tranh/xuyen-duyet-tay-nguyen-3000/index.htm" title="Xuyên Duyệt Tây Nguyên 3000"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2017/08/XuyenDuyetTayNguyen3000A3mangazzx-400x500.jpg" alt="Xuyên Duyệt Tây Nguyên 3000">
-                    <h3>Xuyên Duyệt Tây Nguyên 3000</h3> </a>
-                <a href="xuyen-duyet-tay-nguyen-3000-chap-193/index.htm">
-                    <p class="chap"> Chap 193-SPOILER</p>
-                    <p class="chap-date"><i class="glyphicon glyphicon-time"></i> 18 giờ trước</p>
-                </a>
-            </div>
-            <div class="item">
-                <a href="truyen-tranh/xuyen-duyet-tay-nguyen-3000/index.htm" title="Xuyên Duyệt Tây Nguyên 3000"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2017/08/XuyenDuyetTayNguyen3000A3mangazzx-400x500.jpg" alt="Xuyên Duyệt Tây Nguyên 3000">
-                    <h3>Xuyên Duyệt Tây Nguyên 3000</h3> </a>
-                <a href="xuyen-duyet-tay-nguyen-3000-chap-193/index.htm">
-                    <p class="chap"> Chap 193-SPOILER</p>
-                    <p class="chap-date"><i class="glyphicon glyphicon-time"></i> 18 giờ trước</p>
-                </a>
-            </div>
-            <div class="item">
-                <a href="truyen-tranh/xuyen-duyet-tay-nguyen-3000/index.htm" title="Xuyên Duyệt Tây Nguyên 3000"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2017/08/XuyenDuyetTayNguyen3000A3mangazzx-400x500.jpg" alt="Xuyên Duyệt Tây Nguyên 3000">
-                    <h3>Xuyên Duyệt Tây Nguyên 3000</h3> </a>
-                <a href="xuyen-duyet-tay-nguyen-3000-chap-193/index.htm">
-                    <p class="chap"> Chap 193-SPOILER</p>
-                    <p class="chap-date"><i class="glyphicon glyphicon-time"></i> 18 giờ trước</p>
-                </a>
-            </div>
-            <div class="item">
-                <a href="truyen-tranh/xuyen-duyet-tay-nguyen-3000/index.htm" title="Xuyên Duyệt Tây Nguyên 3000"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2017/08/XuyenDuyetTayNguyen3000A3mangazzx-400x500.jpg" alt="Xuyên Duyệt Tây Nguyên 3000">
-                    <h3>Xuyên Duyệt Tây Nguyên 3000</h3> </a>
-                <a href="xuyen-duyet-tay-nguyen-3000-chap-193/index.htm">
-                    <p class="chap"> Chap 193-SPOILER</p>
-                    <p class="chap-date"><i class="glyphicon glyphicon-time"></i> 18 giờ trước</p>
-                </a>
-            </div>
-            <div class="item">
-                <a href="truyen-tranh/xuyen-duyet-tay-nguyen-3000/index.htm" title="Xuyên Duyệt Tây Nguyên 3000"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2017/08/XuyenDuyetTayNguyen3000A3mangazzx-400x500.jpg" alt="Xuyên Duyệt Tây Nguyên 3000">
-                    <h3>Xuyên Duyệt Tây Nguyên 3000</h3> </a>
-                <a href="xuyen-duyet-tay-nguyen-3000-chap-193/index.htm">
-                    <p class="chap"> Chap 193-SPOILER</p>
-                    <p class="chap-date"><i class="glyphicon glyphicon-time"></i> 18 giờ trước</p>
-                </a>
-            </div>
+            @endforeach
         </div>
     </div>
     @show
 
+
     <div class="row">
-        @section('sidebar')
+
+        @section('left')
         <div class="col-md-8">
             <h2 class="org-title">Truyện mới cập nhật</h2>
             <div class="comic-list">
-                <div class="row responsive-row">
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/10/ToaruOssannoVRMMOKatsudoukiA3manga-150x150.jpg" alt="Toaru Ossan no VRMMO Katsudouki"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"><h3 class="comic-title"> Toaru Ossan no VRMMO Katsudouki</h3> </a> <a href="toaru-ossan-no-vrmmo-katsudouki-chap-36/index.htm">Chap 36</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 5 giờ trước                        </span></div>
-                    </div>
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer">
-                                <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/07/TheGamerA3mangalrere-150x150.jpg" alt="The Gamer"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"><h3 class="comic-title"> The Gamer</h3> </a> <a href="the-gamer-chap-189/index.htm">Chap 189</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 6 giờ trước                        </span></div>
-                    </div>
-                </div>
+
+
+
 
                 <div class="row responsive-row">
+
+                    @php
+                    $chaps = \App\Chapter::where('status', 1)->orderBy('ngay_them', 'DESC')->paginate(20);
+                    @endphp
+                    @foreach($chaps as $chap)
                     <div class="col-md-6 comic-item">
                         <div class="comic-img">
-                            <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/10/ToaruOssannoVRMMOKatsudoukiA3manga-150x150.jpg" alt="Toaru Ossan no VRMMO Katsudouki"> </a>
+                            <a href="{{ url('truyen/' . \App\Story::findOrFail($chap->truyen_id)->slug . '.html' ) }}" title="{{ \App\Story::findOrFail($chap->truyen_id)->ten }}">
+                                <img class="img-thumbnail" src="{{ url('public/image') }}/{{ \App\Story::findOrFail($chap->truyen_id)->image_link }}" alt="">
+                            </a>
                         </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"><h3 class="comic-title"> Toaru Ossan no VRMMO Katsudouki</h3> </a> <a href="toaru-ossan-no-vrmmo-katsudouki-chap-36/index.htm">Chap 36</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 5 giờ trước                        </span></div>
-                    </div>
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/07/TheGamerA3mangalrere-150x150.jpg" alt="The Gamer"> </a>
+                        <div class="comic-title-link">
+                            <a href="{{ url('truyen/' . \App\Story::findOrFail($chap->truyen_id)->slug . '.html' ) }}" title="{{ \App\Story::findOrFail($chap->truyen_id)->ten }}">
+                                <h3 class="comic-title">
+                                    {{ \App\Story::findOrFail($chap->truyen_id)->ten }}
+                                </h3>
+                            </a>
+                            <a href="{{ url('truyen/' . \App\Story::findOrFail($chap->truyen_id)->slug . '/' . $chap->slug . '.html' ) }}">{{ $chap->ten }}</a>
+
+
+                            <?php
+
+                            $dt = new \Carbon\Carbon($chap->ngay_them);
+                            $now = \Carbon\Carbon::now();
+
+                            $diffForHuman = '';
+
+
+                            $diffInMinutes = $now->diffInMinutes($dt);
+                            $diffInHours = $now->diffInHours($dt);
+                            $diffInDays = $now->diffInDays($dt);
+
+                            if ($diffInMinutes >= 0 && $diffInMinutes< 60){
+                                $diffForHuman = $diffInMinutes .' phút trước';
+                            }elseif ($diffInHours >= 0 && $diffInHours < 24){
+                                $diffForHuman = $diffInHours .' giờ trước';
+                            }elseif ($diffInDays >=0 && $diffInDays<= 7){
+                                $diffForHuman = $diffInDays .' ngày trước';
+                            }else{
+                                $diffForHuman = $dt->format('d-m-Y');
+                            }
+
+                            ?>
+
+                            <span class="uptime">
+                                <i class="glyphicon glyphicon-time"></i> {{ $diffForHuman }}
+                            </span>
                         </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"><h3 class="comic-title"> The Gamer</h3> </a> <a href="the-gamer-chap-189/index.htm">Chap 189</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 6 giờ trước                        </span></div>
                     </div>
+                    @endforeach
                 </div>
 
-                <div class="row responsive-row">
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/10/ToaruOssannoVRMMOKatsudoukiA3manga-150x150.jpg" alt="Toaru Ossan no VRMMO Katsudouki"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"><h3 class="comic-title"> Toaru Ossan no VRMMO Katsudouki</h3> </a> <a href="toaru-ossan-no-vrmmo-katsudouki-chap-36/index.htm">Chap 36</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 5 giờ trước                        </span></div>
-                    </div>
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/07/TheGamerA3mangalrere-150x150.jpg" alt="The Gamer"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"><h3 class="comic-title"> The Gamer</h3> </a> <a href="the-gamer-chap-189/index.htm">Chap 189</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 6 giờ trước                        </span></div>
-                    </div>
-                </div>
 
-                <div class="row responsive-row">
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/10/ToaruOssannoVRMMOKatsudoukiA3manga-150x150.jpg" alt="Toaru Ossan no VRMMO Katsudouki"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"><h3 class="comic-title"> Toaru Ossan no VRMMO Katsudouki</h3> </a> <a href="toaru-ossan-no-vrmmo-katsudouki-chap-36/index.htm">Chap 36</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 5 giờ trước                        </span></div>
-                    </div>
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/07/TheGamerA3mangalrere-150x150.jpg" alt="The Gamer"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"><h3 class="comic-title"> The Gamer</h3> </a> <a href="the-gamer-chap-189/index.htm">Chap 189</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 6 giờ trước                        </span></div>
-                    </div>
-                </div>
 
-                <div class="row responsive-row">
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/10/ToaruOssannoVRMMOKatsudoukiA3manga-150x150.jpg" alt="Toaru Ossan no VRMMO Katsudouki"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"><h3 class="comic-title"> Toaru Ossan no VRMMO Katsudouki</h3> </a> <a href="toaru-ossan-no-vrmmo-katsudouki-chap-36/index.htm">Chap 36</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 5 giờ trước                        </span></div>
-                    </div>
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/07/TheGamerA3mangalrere-150x150.jpg" alt="The Gamer"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"><h3 class="comic-title"> The Gamer</h3> </a> <a href="the-gamer-chap-189/index.htm">Chap 189</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 6 giờ trước                        </span></div>
-                    </div>
-                </div>
-
-                <div class="row responsive-row">
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/10/ToaruOssannoVRMMOKatsudoukiA3manga-150x150.jpg" alt="Toaru Ossan no VRMMO Katsudouki"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"><h3 class="comic-title"> Toaru Ossan no VRMMO Katsudouki</h3> </a> <a href="toaru-ossan-no-vrmmo-katsudouki-chap-36/index.htm">Chap 36</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 5 giờ trước                        </span></div>
-                    </div>
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/07/TheGamerA3mangalrere-150x150.jpg" alt="The Gamer"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"><h3 class="comic-title"> The Gamer</h3> </a> <a href="the-gamer-chap-189/index.htm">Chap 189</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 6 giờ trước                        </span></div>
-                    </div>
-                </div>
-
-                <div class="row responsive-row">
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/10/ToaruOssannoVRMMOKatsudoukiA3manga-150x150.jpg" alt="Toaru Ossan no VRMMO Katsudouki"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"><h3 class="comic-title"> Toaru Ossan no VRMMO Katsudouki</h3> </a> <a href="toaru-ossan-no-vrmmo-katsudouki-chap-36/index.htm">Chap 36</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 5 giờ trước                        </span></div>
-                    </div>
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/07/TheGamerA3mangalrere-150x150.jpg" alt="The Gamer"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"><h3 class="comic-title"> The Gamer</h3> </a> <a href="the-gamer-chap-189/index.htm">Chap 189</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 6 giờ trước                        </span></div>
-                    </div>
-                </div>
-
-                <div class="row responsive-row">
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/10/ToaruOssannoVRMMOKatsudoukiA3manga-150x150.jpg" alt="Toaru Ossan no VRMMO Katsudouki"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"><h3 class="comic-title"> Toaru Ossan no VRMMO Katsudouki</h3> </a> <a href="toaru-ossan-no-vrmmo-katsudouki-chap-36/index.htm">Chap 36</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 5 giờ trước                        </span></div>
-                    </div>
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/07/TheGamerA3mangalrere-150x150.jpg" alt="The Gamer"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"><h3 class="comic-title"> The Gamer</h3> </a> <a href="the-gamer-chap-189/index.htm">Chap 189</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 6 giờ trước                        </span></div>
-                    </div>
-                </div>
-
-                <div class="row responsive-row">
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki">
-                                <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/10/ToaruOssannoVRMMOKatsudoukiA3manga-150x150.jpg" alt="Toaru Ossan no VRMMO Katsudouki"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"><h3 class="comic-title"> Toaru Ossan no VRMMO Katsudouki</h3> </a> <a href="toaru-ossan-no-vrmmo-katsudouki-chap-36/index.htm">Chap 36</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 5 giờ trước                        </span></div>
-                    </div>
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/07/TheGamerA3mangalrere-150x150.jpg" alt="The Gamer"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"><h3 class="comic-title"> The Gamer</h3> </a> <a href="the-gamer-chap-189/index.htm">Chap 189</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 6 giờ trước                        </span></div>
-                    </div>
-                </div>
-
-                <div class="row responsive-row">
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/10/ToaruOssannoVRMMOKatsudoukiA3manga-150x150.jpg" alt="Toaru Ossan no VRMMO Katsudouki"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/toaru-ossan-no-vrmmo-katsudouki/index.htm" title="Toaru Ossan no VRMMO Katsudouki"><h3 class="comic-title"> Toaru Ossan no VRMMO Katsudouki</h3> </a> <a href="toaru-ossan-no-vrmmo-katsudouki-chap-36/index.htm">Chap 36</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 5 giờ trước                        </span></div>
-                    </div>
-                    <div class="col-md-6 comic-item">
-                        <div class="comic-img">
-                            <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"> <img class="img-thumbnail" src="{{ url('public/A3manga/www.a3manga.com') }}/wp-content/uploads/2016/07/TheGamerA3mangalrere-150x150.jpg" alt="The Gamer"> </a>
-                        </div>
-                        <div class="comic-title-link"> <a href="truyen-tranh/the-gamer/index.htm" title="The Gamer"><h3 class="comic-title"> The Gamer</h3> </a> <a href="the-gamer-chap-189/index.htm">Chap 189</a> <span class="uptime"><i class="glyphicon glyphicon-time"></i> 6 giờ trước                        </span></div>
-                    </div>
-                </div>
-
-                <div class="row responsive-row"></div>
             </div>
             <div class="clearfix"></div>
             <nav>
                 <ul class="pager">
-                    <li class="previous disabled"><a href="page/1/index.htm"><span aria-hidden="true">&larr;</span> Trước</a></li>
-                    <li class="pager-note">Trang 1/42</li>
-                    <li class="next "><a href="page/2/index.htm">Sau <span aria-hidden="true">&rarr;</span></a></li>
+
+                    @if ($chaps->onFirstPage())
+                        <li class="previous disabled"><a href=""><span aria-hidden="true">&larr;</span> Trước</a></li>
+                    @else
+                        <li class="previous"><a href="{{ $chaps->previousPageUrl() }}"><span aria-hidden="true">&larr;</span> Trước</a></li>
+                    @endif
+
+                    <li class="pager-note">Trang {{ $chaps->currentPage() }}/{{ $chaps->lastPage() }}</li>
+
+                    @if ($chaps->hasMorePages())
+                        <li class="next"><a href="{{ $chaps->nextPageUrl() }}"><span aria-hidden="true">&rarr;</span> Sau</a></li>
+                    @else
+                        <li class="next disableled"><a href=""><span aria-hidden="true">&larr;</span> Sau</a></li>
+                    @endif
                 </ul>
             </nav>
         </div>
         @show
 
+        @section('right')
         <div class="sidebar col-md-4">
             <div class="widget text-center force-center more-a">
 
+                <img src="{{ url('public/image/' . \App\Ads::findOrFail(1)->image_link ) }}">
             </div>
-            <div class="widget">
+            <div class="widget text-center">
                 <div class="fb-page" data-href="https://www.facebook.com/a3manga" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="true">
                     <div class="fb-xfbml-parse-ignore">
                         <blockquote cite="javascript:if(confirm('https://www.facebook.com/a3manga\n\nThis file was not retrieved because it was filtered out by your project settings.\n\nWould you like to open it from the server?'))window.location='https://www.facebook.com/a3manga'"><a href="javascript:if(confirm('https://www.facebook.com/a3manga\n\nThis file was not retrieved because it was filtered out by your project settings.\n\nWould you like to open it from the server?'))window.location='https://www.facebook.com/a3manga'" target="_blank" rel="nofollow">A3 Manga</a></blockquote>
@@ -320,58 +233,47 @@
             <div id="google-badge" class="widget">
                 <div class="g-page" data-width="307" data-href="https://plus.google.com/111895487585104651903" data-showtagline="false" data-rel="publisher"></div>
             </div>
-            <div class="widget">
+            
+            
+            <!--<div class="widget">
                 <h3 class="green-title margin-bottom-15px">Loạt truyện</h3>
-                <div class="tags"> <a href="series/hwang-mi-ri/index.htm">Hwang Mi Ri</a> <a href="series/han-yu-rang/index.htm">Han Yu-rang</a> <a href="series/dau-la/index.htm">Đấu La</a> <a href="series/phung-lam/index.htm">Phụng Lâm</a> <a href="series/thau-tinh/index.htm">Thâu Tinh</a> <a href="series/tan-tac-long-ho-mon/index.htm">Tân Tác Long Hổ Môn</a></div>
-            </div>
+                <div class="tags">
+                    @php
+                    /*
+                    @foreach(\App\Story::where('status', 1)->limit(6)->orderBy('id', "DESC")->get()  as $item)
+                    <a href="{{ url('truyen/' . $item->slug . '.html' ) }}">{{ $item->ten }}</a>
+                        @endforeach*/
+                        @endphp
+
+                </div>
+            </div>-->
+            
+            
             <div id="text-3" class="widget text-center force-center widget_text">
                 <h2 class="red-title text-left margin-bottom-15px">Truyện xem nhiều</h2>
                 <div class="textwidget">
                     <ul class="most-views text-left">
+                        @foreach(\App\Story::where('status', 1)->orderBy('view', 'DESC')->limit(10)->get() as $item)
                         <li>
-                            <p class="super-title"><a href="truyen-tranh/ky-si-hoang-tuong-da/index.htm">Kỵ Sĩ Hoang Tưởng Dạ</a></p>
-                            <p class="small-title">Chương mới nhất: 161</p>
+                            <p class="super-title"><a href="{{ url('truyen/' . $item->slug . '.html' ) }}">{{ $item->ten }}</a></p>
+
+                            @php
+
+                                $lastChapter = \Illuminate\Support\Facades\DB::table('chuong')->where('status', '=', 1)
+                            ->where('truyen_id', '=',$item->id)
+                            ->orderBy('ngay_them', 'ASC')
+                            ->first();
+
+                            @endphp
+                            <p class="small-title">Chương mới nhất: {{ $lastChapter == null ? 'null' : $lastChapter->ten }}</p>
                         </li>
-                        <li>
-                            <p class="super-title"><a href="truyen-tranh/tam-trao-tien-the-chi-lu/index.htm">Tầm Trảo Tiền Thế Chi Lữ</a></p>
-                            <p class="small-title">Chương mới nhất: 150</p>
-                        </li>
-                        <li>
-                            <p class="super-title"><a href="truyen-tranh/xuyen-duyet-tay-nguyen-3000/index.htm">Xuyên Duyệt Tây Nguyên 3000</a></p>
-                            <p class="small-title">Chương mới nhất: 192</p>
-                        </li>
-                        <li>
-                            <p class="super-title"><a href="truyen-tranh/huyet-toc-cam-vuc/index.htm">Huyết Tộc Cấm Vực</a></p>
-                            <p class="small-title">Chương mới nhất: 98</p>
-                        </li>
-                        <li>
-                            <p class="super-title"><a href="truyen-tranh/thien-giang-hien-thuc-nam/index.htm">Thiên Giáng Hiền Thục Nam</a></p>
-                            <p class="small-title">Chương 129 [HẾT]</p>
-                        </li>
-                        <li>
-                            <p class="super-title"><a href="truyen-tranh/cau-lac-bo-ngoi-sao/index.htm">Câu Lạc Bộ Ngôi Sao</a></p>
-                            <p class="small-title">Chương 149 [HẾT]</p>
-                        </li>
-                        <li>
-                            <p class="super-title"><a href="truyen-tranh/co-len-nao-dai-ma-vuong/index.htm">Cố Lên Nào, Đại Ma Vương!</a></p>
-                            <p class="small-title">Chương 172 [HẾT]</p>
-                        </li>
-                        <li>
-                            <p class="super-title"><a href="truyen-tranh/my-hinh-yeu-tinh-dai-hon-chien/index.htm">Mỹ Hình Yêu Tinh Đại Hỗn Chiến</a></p>
-                            <p class="small-title">Chương 135 [HẾT]</p>
-                        </li>
-                        <li>
-                            <p class="super-title"><a href="truyen-tranh/phuong-nghich-thien-ha/index.htm">Phượng Nghịch Thiên Hạ</a></p>
-                            <p class="small-title">Chương mới nhất: 102</p>
-                        </li>
-                        <li>
-                            <p class="super-title"><a href="truyen-tranh/tam-nhan-hao-thien-luc/index.htm">Tam Nhãn Hao Thiên Lục</a></p>
-                            <p class="small-title">Chương mới nhất: 234</p>
-                        </li>
+                        @endforeach
+
                     </ul>
                 </div>
             </div>
         </div>
+        @show
 
     </div>
 
@@ -379,7 +281,15 @@
 
     </div>
 </section>
-@show
+
+
+@section('middle')
+    @show
+
+@section('bottom')
+
+    @show
+
 
 
 <footer class="clearfix">
@@ -389,12 +299,13 @@
                 <div class="col-md-8">
                     <div class="footer-links">
                         <h4 class="footer-title blue">Thể loại</h4>
-                        <div class="tags"> <a href="the-loai/action/index.htm">Action</a> <a href="the-loai/comedy/index.htm">Comedy</a> <a href="the-loai/drama/index.htm">Drama</a> <a href="the-loai/fantasy/index.htm">Fantasy</a> <a href="the-loai/harem/index.htm">Harem</a> <a href="the-loai/horror/index.htm">Horror</a> <a href="the-loai/manhua/index.htm">Manhua</a> <a href="the-loai/manhwa/index.htm">Manhwa</a> <a href="the-loai/mecha/index.htm">Mecha</a> <a href="the-loai/mystery/index.htm">Mystery</a> <a href="the-loai/psychological/index.htm">Psychological</a> <a href="the-loai/romance/index.htm">Romance</a> <a href="the-loai/school-life/index.htm">School Life</a> <a href="the-loai/seinen/index.htm">Seinen</a> <a href="the-loai/shoujo/index.htm">Shoujo</a> <a href="the-loai/shounen/index.htm">Shounen</a> <a href="the-loai/shounen-ai/index.htm">Shounen Ai</a> <a href="the-loai/sports/index.htm">Sports</a> <a href="the-loai/supernatural/index.htm">Supernatural</a> <a href="the-loai/webtoons/index.htm">Webtoons</a> <a href="the-loai/xuyen-khong/index.htm">Xuyên Không</a> <a href="tron-bo/index.htm">Trọn Bộ</a></div>
+                        <div class="tags">
+                            @foreach(\App\Category::where('status', 1)->get() as $item)
+                            <a href="{{ url('the-loai/' . $item->slug . '.html') }}">{{ $item->ten }}</a>
+                                @endforeach
+                        </div>
                     </div>
-                    <div class="footer-links">
-                        <h4 class="footer-title org">Nhóm</h4>
-                        <div class="tags"> <a href="nhom/a3/index.htm">A3</a> <a href="nhom/deathplace/index.htm">Deathplace</a> <a href="nhom/goc-cay/index.htm">Gốc Cây</a> <a href="nhom/ham-truyen/index.htm">Ham Truyện</a> <a href="nhom/ngon-phong/index.htm">Ngôn Phong</a> <a href="nhom/sotm/index.htm">SOTM</a> <a href="nhom/truyen-tranh-thap-cam/index.htm">Truyện Tranh Thập Cẩm</a> <a href="nhom/truyen-v1/index.htm">Truyện V1</a> <a href="nhom/tuoi-tho-du-doi/index.htm">Tuổi Thơ Dữ Dội</a> <a title="Status Hay" href="javascript:if(confirm('http://viet-status.com/status-hay\n\nThis file was not retrieved because it was filtered out by your project settings.\n\nWould you like to open it from the server?'))window.location='http://viet-status.com/status-hay'" target="_blank">Status Hay</a></div>
-                    </div>
+
                 </div>
                 <div class="col-md-4">
                     <div class="note text-justify">Mọi thông tin và hình ảnh trên website đều được sưu tầm trên Internet. Chúng tôi không sở hữu hay chịu trách nhiệm bất kỳ thông tin nào trên web này. Nếu làm ảnh hưởng đến cá nhân hay tổ chức nào, khi được yêu cầu, chúng tôi sẽ xem xét và gỡ bỏ ngay lập tức.</div>
@@ -403,7 +314,7 @@
         </div>
     </div>
     <div class="copyright">
-        <div class="container copyright-txt">© 2014 - 2017 <a href="index.htm">A3 Manga - Truyện Tranh Online</a>. <a href="" target="_blank" rel="nofollow">Facebook</a> &middot; <a href="" target="_blank" rel="nofollow">Twitter</a> &middot; <a href="" target="_blank" rel="publisher">Google+</a> &middot; <a href="" target="_blank" rel="nofollow">DeviantART</a> <span class="pull-right contact-email">Liên hệ: <a href="mailto:a3manga@gmail.com">a3manga@gmail.com</a></span></div>
+        <div class="container copyright-txt">© 2014 - 2017 <a href="index.htm">Truyện Tranh Online</a>. <a href="" target="_blank" rel="nofollow">Facebook</a> &middot; <a href="" target="_blank" rel="nofollow">Twitter</a> &middot; <a href="" target="_blank" rel="publisher">Google+</a> &middot; <a href="" target="_blank" rel="nofollow">DeviantART</a> <span class="pull-right contact-email">Liên hệ: <a href="mailto:truyentranh@gmail.com">truyentranh@gmail.com</a></span></div>
         <div class="clearfix"></div>
     </div>
 </footer>
