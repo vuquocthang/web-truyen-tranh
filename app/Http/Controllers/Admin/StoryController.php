@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Category;
+use App\CategoryStory;
 use App\Http\Controllers\Controller;
 use App\Story;
 use Illuminate\Support\Facades\Request;
@@ -35,6 +36,14 @@ class StoryController extends Controller
 
         Story::create($input);
 
+        $lastStory = Story::orderBy('id', 'DESC' )->first();
+
+
+            foreach ($request->the_loai_ids as $value){
+                CategoryStory::create(['the_loai_id' => $value, 'truyen_id' => $lastStory->id]);
+            }
+
+
         return redirect('admin/truyen/danh-sach');
     }
 
@@ -52,7 +61,11 @@ class StoryController extends Controller
     public function showEditForm($id){
         $story = Story::findOrFail($id);
 
-        return view('admin.story.edit', ['story' => $story, 'id' => $id]);
+        $categoryStory = CategoryStory::where('truyen_id', $id)->pluck('the_loai_id')->toArray();
+
+        //print_r($categoryStory);
+
+        return view('admin.story.edit', ['story' => $story, 'id' => $id, 'categoryStory' => $categoryStory]);
     }
 
     public function edit($id, \Illuminate\Http\Request $request){
@@ -73,6 +86,12 @@ class StoryController extends Controller
                 }
             }
 
+        }
+
+        CategoryStory::where('truyen_id', $id)->delete();
+
+        foreach ($request->the_loai_ids as $value){
+            CategoryStory::create(['the_loai_id' => $value, 'truyen_id' => $id]);
         }
 
         $story->fill($input);

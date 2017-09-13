@@ -1,3 +1,8 @@
+<?php $__env->startSection('title'); ?>
+    <?php echo e($category->ten); ?>
+
+<?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('top-hot'); ?>
 
 <?php $__env->stopSection(); ?>
@@ -15,13 +20,29 @@
                     <th style="width: 25%;">Mới nhất</th>
                 </tr>
                 </thead>
+
+                <?php 
+                    $stories = DB::table('truyen')
+                ->select('truyen.*' )
+                ->join('the_loai_truyen', 'truyen.id', '=', 'the_loai_truyen.truyen_id')
+                ->join('the_loai', 'the_loai_truyen.the_loai_id', '=', 'the_loai.id')
+                ->where('truyen.status', 1)
+                ->where('the_loai.id', $category->id)
+                ->get();
+
+                 ?>
                 <tbody>
-                <?php $__currentLoopData = \App\Story::where('the_loai_id' , $category->id)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+
+                <?php $__currentLoopData = $stories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $value): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                 <tr>
                     <td><?php echo e($key + 1); ?></td>
-                    <td><a href="<?php echo e(url('truyen/' . $value->slug . '.html' )); ?>"> <?php echo e($value->ten); ?> </a></td>
-                    <td><a href="<?php echo e(url('truyen/' . $value->slug . '/' . \App\Chapter::where('truyen_id', $value->id)->orderBy('ngay_them', "DESC")->first()->slug . '.html' )); ?>">
-                            <?php echo e(\App\Chapter::where('truyen_id', $value->id)->orderBy('ngay_them', "DESC")->first()->ten); ?>
+                    <td>
+                        <img width="30%" src="<?php echo e(url('public/image/' . $value->image_link)); ?>" />
+                        <a href="<?php echo e(url('truyen/' . $value->slug . '.html' )); ?>"> <?php echo e($value->ten); ?> </a>
+                    </td>
+                    <td>
+                        <a href="<?php echo e(url('truyen/' . $value->slug . '/' . \App\Chapter::where('truyen_id', $value->id)->orderBy('ngay_them', "DESC")->firstOrFail()->slug . '.html' )); ?>">
+                            <?php echo e(\App\Chapter::where('truyen_id', $value->id)->orderBy('ngay_them', "DESC")->firstOrFail()->ten); ?>
 
                         </a>
                     </td>

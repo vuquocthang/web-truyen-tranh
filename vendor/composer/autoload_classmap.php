@@ -19,6 +19,8 @@ return array(
     'CreateSlideTable' => $baseDir . '/database/migrations/2017_09_07_171101_create_slide_table.php',
     'CreateTableAddViewToTruyen' => $baseDir . '/database/migrations/2017_09_05_071856_create_table_add_view_to_truyen.php',
     'CreateTheLoaiTable' => $baseDir . '/database/migrations/2017_08_28_155658_create_the_loai_table.php',
+    'CreateTheLoaiTruyenTable' => $baseDir . '/database/migrations/2017_09_13_074339_create_the_loai_truyen_table.php',
+    'CreateTopReadTable' => $baseDir . '/database/migrations/2017_09_13_060549_create_top-read_table.php',
     'CreateTruyenTable' => $baseDir . '/database/migrations/2017_08_29_222819_create_truyen_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

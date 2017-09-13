@@ -327,6 +327,8 @@ class ComposerStaticInit721779861f4db443918ab6a880b040be
         'CreateSlideTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_07_171101_create_slide_table.php',
         'CreateTableAddViewToTruyen' => __DIR__ . '/../..' . '/database/migrations/2017_09_05_071856_create_table_add_view_to_truyen.php',
         'CreateTheLoaiTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_28_155658_create_the_loai_table.php',
+        'CreateTheLoaiTruyenTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_074339_create_the_loai_truyen_table.php',
+        'CreateTopReadTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_060549_create_top-read_table.php',
         'CreateTruyenTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_29_222819_create_truyen_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',

@@ -1,5 +1,9 @@
 @extends('base')
 
+@section('title')
+    {{ $category->ten }}
+@endsection
+
 @section('top-hot')
 
 @endsection
@@ -17,13 +21,29 @@
                     <th style="width: 25%;">Mới nhất</th>
                 </tr>
                 </thead>
+
+                @php
+                    $stories = DB::table('truyen')
+                ->select('truyen.*' )
+                ->join('the_loai_truyen', 'truyen.id', '=', 'the_loai_truyen.truyen_id')
+                ->join('the_loai', 'the_loai_truyen.the_loai_id', '=', 'the_loai.id')
+                ->where('truyen.status', 1)
+                ->where('the_loai.id', $category->id)
+                ->get();
+
+                @endphp
                 <tbody>
-                @foreach(\App\Story::where('the_loai_id' , $category->id)->get() as $key => $value  )
+
+                @foreach($stories as $key => $value  )
                 <tr>
                     <td>{{ $key + 1 }}</td>
-                    <td><a href="{{ url('truyen/' . $value->slug . '.html' ) }}"> {{ $value->ten }} </a></td>
-                    <td><a href="{{ url('truyen/' . $value->slug . '/' . \App\Chapter::where('truyen_id', $value->id)->orderBy('ngay_them', "DESC")->first()->slug . '.html' ) }}">
-                            {{ \App\Chapter::where('truyen_id', $value->id)->orderBy('ngay_them', "DESC")->first()->ten }}
+                    <td>
+                        <img width="30%" src="{{ url('public/image/' . $value->image_link) }}" />
+                        <a href="{{ url('truyen/' . $value->slug . '.html' ) }}"> {{ $value->ten }} </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('truyen/' . $value->slug . '/' . \App\Chapter::where('truyen_id', $value->id)->orderBy('ngay_them', "DESC")->firstOrFail()->slug . '.html' ) }}">
+                            {{ \App\Chapter::where('truyen_id', $value->id)->orderBy('ngay_them', "DESC")->firstOrFail()->ten }}
                         </a>
                     </td>
                 </tr>

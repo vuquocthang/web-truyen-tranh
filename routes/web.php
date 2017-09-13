@@ -42,9 +42,22 @@ Route::get('/danh-sach-the-loai.html', function () {
     return view('category-list');
 });
 
+#search
+Route::get('/tim-kiem', function (){
+    $s = \Illuminate\Support\Facades\Input::get('s');
+
+    $s = str_replace('+', ' ', $s);
+
+    $kq =  \App\Story::where('ten', 'like', "%{$s}%")->where('status', 1)->get();
+
+    //print_r($kq);
+
+    return view('search', ['kq' => $kq, 's' => $s]);
+});
+
 #test
-Route::get('/testUpload', function (){
-    return view('test.upload2');
+Route::get('/test', function (){
+    echo implode("\",\"",  \App\Story::where('id', '>', 0)->pluck('ten')->toArray() );
 });
 
 Route::get('/testCarbon', 'TestController@carbon');
@@ -131,6 +144,28 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::post('/slide/them', 'SlideController@add');
 
         Route::get('/slide/xoa/{id}', 'SlideController@delete');
+
+        #admin-group
+        Route::get('/group-admin/danh-sach', 'AdminGroupController@index');
+
+        Route::get('/group-admin/them', 'AdminGroupController@showAddForm');
+
+        Route::post('/group-admin/them', 'AdminGroupController@add');
+
+
+        Route::get('/group-admin/xoa/{id}', 'AdminGroupController@delete');
+
+        #truyen doc nhieu
+        Route::get('/truyen-doc-nhieu/danh-sach', 'TopReadController@index');
+
+        Route::get('/truyen-doc-nhieu/them', 'TopReadController@showAddForm');
+
+        Route::post('/truyen-doc-nhieu/them', 'TopReadController@add');
+
+
+        Route::get('/truyen-doc-nhieu/xoa/{id}', 'TopReadController@delete');
+
+
 
 
 

@@ -6,6 +6,7 @@ Truyện - Thêm
 
   <link rel="stylesheet" href="<?php echo e(url('public/admin/gentelella')); ?>/vendors/dropify/dist/css/dropify.min.css">
 
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('main'); ?>
@@ -43,6 +44,34 @@ Truyện - Thêm
                       <option value="<?php echo e($item->id); ?>"><?php echo e($item->ten); ?></option>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                   </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Thể Loại <span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12" >
+
+
+
+
+
+
+
+                      <div class="mutliSelect">
+                        <ul>
+                          <?php $__currentLoopData = \App\Category::where('status', '!=' ,-1)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                          <li>
+                            <input type="checkbox" name="the_loai_ids[]" value="<?php echo e($item->id); ?>"  > <?php echo e($item->ten); ?>
+
+                          </li>
+                          <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+
+                        </ul>
+                      </div>
+
+
+
                 </div>
               </div>
 
@@ -125,6 +154,42 @@ Truyện - Thêm
               }
           });
 
+      });
+  </script>
+
+  <script>
+      $(".dropdown dt a").on('click', function() {
+          $(".dropdown dd ul").slideToggle('fast');
+      });
+
+      $(".dropdown dd ul li a").on('click', function() {
+          $(".dropdown dd ul").hide();
+      });
+
+      function getSelectedValue(id) {
+          return $("#" + id).find("dt a span.value").html();
+      }
+
+      $(document).bind('click', function(e) {
+          var $clicked = $(e.target);
+          if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
+      });
+
+      $('.mutliSelect input[type="checkbox"]').on('click', function() {
+
+          var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
+              title = $(this).val() + ",";
+
+          if ($(this).is(':checked')) {
+              var html = '<span title="' + title + '">' + title + '</span>';
+              $('.multiSel').append(html);
+              $(".hida").hide();
+          } else {
+              $('span[title="' + title + '"]').remove();
+              var ret = $(".hida");
+              $('.dropdown dt a').append(ret);
+
+          }
       });
   </script>
 <?php $__env->stopSection(); ?>

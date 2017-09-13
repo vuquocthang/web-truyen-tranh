@@ -47,6 +47,26 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Thể Loại <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12" >
+
+                                    <div class="mutliSelect">
+                                        <ul>
+                                            <?php $__currentLoopData = \App\Category::where('status', '!=' ,-1)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                                <li>
+                                                    <input type="checkbox" name="the_loai_ids[]" value="<?php echo e($item->id); ?>" <?php echo e(in_array($item->id, $categoryStory) ? 'checked' : ''); ?> > <?php echo e($item->ten); ?>
+
+                                                </li>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Tên Khác <span class="required"></span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">

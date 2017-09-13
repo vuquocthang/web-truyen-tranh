@@ -95,6 +95,20 @@
                                 </ul>
                             </li>
 
+                            <li><a><i class="fa fa-adjust"></i> Group Admin  <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ url('admin/group-admin/them') }}">Thêm</a></li>
+                                    <li><a href="{{ url('admin/group-admin/danh-sach') }}">Danh Sách</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a><i class="fa fa-dashcube"></i> Truyện Đọc Nhiều  <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ url('admin/truyen-doc-nhieu/them') }}">Thêm</a></li>
+                                    <li><a href="{{ url('admin/truyen-doc-nhieu/danh-sach') }}">Danh Sách</a></li>
+                                </ul>
+                            </li>
+
 
 
 

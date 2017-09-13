@@ -28,11 +28,20 @@
         }
     </style>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="<?php echo e(url('public/A3manga/www.a3manga.com')); ?>/wp-content/themes/a3manga/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="<?php echo e(url('public/A3manga/www.a3manga.com')); ?>/wp-content/cache/minify/32d49.default.include.f9049d.css" media="all" />
     <link rel="shortcut icon" href="<?php echo e(url('public/A3manga/www.a3manga.com')); ?>/wp-content/themes/a3manga/images/favicon.png.htm">
     <link rel="apple-touch-icon" href="<?php echo e(url('public/A3manga/www.a3manga.com')); ?>/wp-content/themes/a3manga/images/apple-touch-icon.png.htm">
+
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
 
     <?php echo $__env->yieldContent('css'); ?>
 
@@ -67,12 +76,33 @@
                     <a href="truyen-xem-nhieu/index.htm">Truyện xem nhiều</a>
                 </li>-->
             </ul>
-            <form class="navbar-form navbar-right" action="index.htm" method="get" role="search" onSubmit="return false;">
-                <div class="form-group search-wrapper">
-                    <input type="text" name="s" placeholder="Tìm kiếm truyện..." class="search-txt">
+
+            <form class="navbar-form navbar-right" action="<?php echo e(url('tim-kiem')); ?>" method="get" role="search" >
+                <div class="form-group search-wrapper ui-widget">
+                    <input type="text" name="s" id="tags" placeholder="Tìm kiếm truyện..." class="search-txt">
                     <button type="submit" class="search-btn"><i class="glyphicon glyphicon-search"></i></button>
+
                 </div>
+
             </form>
+
+
+
+            <script>
+                $( function() {
+                    var availableTags = [
+                        <?php
+                            echo htmlspecialchars_decode("'" . implode("','",  \App\Story::where('id', '>', 0)->where('status', 1)->pluck('ten')->toArray() ) . "'")
+                        ?>
+                    ];
+                    $( "#tags" ).autocomplete({
+                        source: availableTags
+                    });
+                } );
+            </script>
+
+
+
         </div>
     </div>
 </header>
@@ -254,7 +284,8 @@
             <div id="text-3" class="widget text-center force-center widget_text">
                 <h2 class="red-title text-left margin-bottom-15px">Truyện xem nhiều</h2>
                 <div class="textwidget">
-                    <ul class="most-views text-left">
+                    <!--<ul class="most-views text-left">
+                    <?php  /*
                         <?php $__currentLoopData = \App\Story::where('status', 1)->orderBy('view', 'DESC')->limit(10)->get(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                         <li>
                             <p class="super-title"><a href="<?php echo e(url('truyen/' . $item->slug . '.html' )); ?>"><?php echo e($item->ten); ?></a></p>
@@ -271,7 +302,21 @@
                         </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
 
+                        */
+                         ?>
+                    </ul> -->
+
+                    <ul class="most-views text-left">
+
+                        <?php $__currentLoopData = \App\TopRead::all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                        <li>
+                            <p class="super-title"><a href="<?php echo e(url('truyen/' . \App\Story::findOrFail(\App\Chapter::findOrFail($item->chuong_id)->truyen_id)->slug . '.html' )); ?>"><?php echo e(\App\Story::findOrFail(\App\Chapter::findOrFail($item->chuong_id)->truyen_id)->ten); ?></a></p>
+
+                            <p class="small-title">Chương mới nhất: <?php echo e(\App\Chapter::findOrFail($item->chuong_id)->ten); ?></p>
+                        </li>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                     </ul>
+
                 </div>
             </div>
         </div>
@@ -326,23 +371,7 @@
 
 <?php echo $__env->yieldContent('js'); ?>
 
-<script type='text/javascript'>
-    var uiAutocompleteL10n = {
-        "noResults": "No results found.",
-        "oneResult": "1 result found. Use up and down arrow keys to navigate.",
-        "manyResults": "%d results found. Use up and down arrow keys to navigate.",
-        "itemSelected": "Item selected."
-    };
-</script>
-<script type='text/javascript'>
-    var SearchAutocomplete = {
-        "ajaxurl": "https:\/\/www.a3manga.com\/wp-admin\/admin-ajax.php",
-        "fieldName": "[name=\"s\"]",
-        "minLength": "1",
-        "delay": "500",
-        "autoFocus": "false"
-    };
-</script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="<?php echo e(url('public/A3manga/www.a3manga.com')); ?>/wp-content/themes/a3manga/owl-carousel/owl.carousel.min.js"></script>
